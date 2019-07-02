@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {BooksService} from "./services/books.service";
 import {IdService} from "./services/id.service";
 import { FormsModule } from "@angular/forms";
+import { FlashMessagesModule } from "angular2-flash-messages";
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule } from "@angular/forms";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    FlashMessagesModule.forRoot()
   ],
   providers: [BooksService, IdService],
   bootstrap: [AppComponent]
