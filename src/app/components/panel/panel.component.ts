@@ -3,7 +3,7 @@ import { OnDestroy } from "@angular/core";
 import { BooksService } from "../../services/books.service";
 import { Book } from "../../models/Book";
 import { FlashMessagesService } from "angular2-flash-messages";
-import {SubscriptionLike} from "rxjs/internal/types";
+import {SubscriptionLike } from "rxjs/internal/types";
 import { ActivatedRoute, Router} from "@angular/router";
 //import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 //import {observable} from "rxjs/internal-compatibility";
@@ -17,18 +17,19 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   books: Book[];
   subscription: SubscriptionLike ;
+  lastId: string;
 
   constructor(
     public bookService: BooksService,
     private flashMessage: FlashMessagesService,
-    public router: Router,
+    public router: Router
   ) { }
 
   ngOnInit() {
 
    this.getBooks();
      this.subscription = this.bookService.deletedBook.subscribe((id) => {
-       if (id) {
+       if (id && id !== this.lastId) {
          console.log(id);
          this.getBooks();
          this.flashMessage.show("Delete Success!!!", {
@@ -44,7 +45,9 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log("destroy", this.subscription);
-   this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   getBooks() {
@@ -55,7 +58,6 @@ export class PanelComponent implements OnInit, OnDestroy {
 
   deleteBook(id: string) {
     //console.log(this.bookService.deletedBook._isScalar);
-
     this.bookService.deleteBook(id);
 
 
