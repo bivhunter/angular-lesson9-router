@@ -13,6 +13,13 @@ import {BooksService} from "./services/books.service";
 import {IdService} from "./services/id.service";
 import { FormsModule } from "@angular/forms";
 import { FlashMessagesModule } from "angular2-flash-messages";
+import { LoginComponent } from './components/login/login.component';
+import { AuthService } from "./services/auth.service";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+
+import { environment } from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -22,15 +29,19 @@ import { FlashMessagesModule } from "angular2-flash-messages";
     EditBookComponent,
     AboutComponent,
     NotFoundComponent,
-    NavbarComponent
+    NavbarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase, "forWeb")
   ],
-  providers: [BooksService, IdService],
+  providers: [BooksService, IdService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
