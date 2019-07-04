@@ -15,6 +15,7 @@ export class AuthService {
   }
 
   checkAuth() {
+    //console.log(this.afAuth.authState);
     return this.afAuth.authState;
   }
 
