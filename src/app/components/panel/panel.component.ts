@@ -53,6 +53,7 @@ export class PanelComponent implements OnInit, OnDestroy {
   getBooks() {
     this.bookService.getBooks().subscribe((books: Book[]) => {
       this.books = books;
+      console.log(books);
     });
   }
 

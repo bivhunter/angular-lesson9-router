@@ -2,71 +2,58 @@ import { Injectable } from '@angular/core';
 import { of } from "rxjs/internal/observable/of";
 import { BehaviorSubject } from "rxjs/internal/BehaviorSubject";
 import { Book } from "../models/Book";
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "@angular/fire/firestore";
+import {Observable} from "rxjs/internal/Observable";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService {
 
-  books: Book[] = [
-    {
-      id: '71e9a7bc-fbe8-4384-842f-65a17aed5e0e',
-      name: 'Выразительный JavaScript',
-      author: 'Marijn Haverbeke',
-      description: 'lorem lorem',
-      links: [
-        {
-        type: 'egub',
-        link: 'link'
-      },
-        {
-          type: 'pdf',
-          link: 'link'
-        }
-      ]
-    }
-  ];
+  booksCollection: AngularFirestoreCollection<Book>;
+  bookDoc: AngularFirestoreDocument<Book>;
+  books: Observable<Book[]>;
+  book: Observable<Book>;
 
   deleteBookSource = new BehaviorSubject<string>('');
   deletedBook = this.deleteBookSource.asObservable();
 
   constructor(
-
-
-  ) { }
+    private afs: AngularFirestore
+  ) {
+    this.booksCollection = this.afs.collection<Book>('books');
+  }
 
   getBooks() {
-    //console.log(this.books, of(this.books));
-    return of(this.books);
+    this.books = this.booksCollection.snapshotChanges().pipe(
+      map(collection => {
+        console.log("colecction",collection);
+      return collection.map(document => {
+        const data = document.payload.doc.data() as Book;
+        data.id = document.payload.doc.id;
+        return data;
+        });
+      })
+    );
+    return this.books;
   }
 
   getBookById(id: string) {
-    const book = this.books.find((book: Book) => {
-      return book.id === id;
-    });
-    return of(book);
+
+    return this.book;
   }
 
   addBook(book: Book) {
-    this.books.unshift(book);
     return of(book);
   }
 
   editBook(book: Book) {
-    this.books = this.books.map(item => {
-      if(item.id === book.id) {
-        item = book;
-      }
-      return item;
-    });
+
    return of(book);
   }
 
   deleteBook(id: string) {
-    this.books = this.books.filter((item) => {
-      return item.id !== id;
-    });
-    this.deleteBookSource.next(id);
-    return of(this.books);
+
   }
 }
