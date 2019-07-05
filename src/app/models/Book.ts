@@ -8,6 +8,7 @@ export interface Book {
   name: string;
   author: string;
   description: string;
-  prise?: 100;
+  prise: number;
+  date: string;
   links: BookLinks[];
 }

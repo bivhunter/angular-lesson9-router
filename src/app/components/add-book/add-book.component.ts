@@ -16,6 +16,7 @@ export class AddBookComponent implements OnInit {
     name: '',
     author: '',
     description: '',
+    prise: 0,
     links: [
       {
         type: 'equb',

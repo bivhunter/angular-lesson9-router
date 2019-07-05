@@ -28,10 +28,11 @@ export class BooksService {
   getBooks() {
     this.books = this.booksCollection.snapshotChanges().pipe(
       map(collection => {
-        console.log("colecction",collection);
+
       return collection.map(document => {
         const data = document.payload.doc.data() as Book;
         data.id = document.payload.doc.id;
+        console.log("colecction", data);
         return data;
         });
       })
