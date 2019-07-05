@@ -23,6 +23,7 @@ import { environment } from "../environments/environment";
 import { RegisterComponent } from './components/register/register.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { CurrencyComponent } from './components/currency/currency.component';
+import { CurrencyService} from "./services/currency.service";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import { CurrencyComponent } from './components/currency/currency.component';
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase, "forWeb")
   ],
-  providers: [BooksService, IdService, AuthService],
+  providers: [BooksService, IdService, AuthService, CurrencyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

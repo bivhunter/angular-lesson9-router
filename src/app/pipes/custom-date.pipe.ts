@@ -7,8 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CustomDatePipe implements PipeTransform {
 
   transform(value: any, locale?: any, format?: any): any {
-    console.log(+new Date(2019, 6, 4, 12, 0, 0));
-    console.log(new Date (+(value.seconds + "000")), locale, format);
     let date = new Date (+(value.seconds + "000"));
     let result;
 

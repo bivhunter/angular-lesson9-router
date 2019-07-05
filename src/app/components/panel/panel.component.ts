@@ -5,6 +5,8 @@ import { Book } from "../../models/Book";
 import { FlashMessagesService } from "angular2-flash-messages";
 import {SubscriptionLike } from "rxjs/internal/types";
 import { ActivatedRoute, Router} from "@angular/router";
+import {CurrencyService} from "../../services/currency.service";
+import {Currency} from "../../models/Currency";
 //import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 //import {observable} from "rxjs/internal-compatibility";
 
@@ -20,19 +22,29 @@ export class PanelComponent implements OnInit, OnDestroy {
   lastId: string;
   searchText: string;
   searchingResult: Book[] = [];
+  currentCurrency: Currency
 
   constructor(
     public bookService: BooksService,
     private flashMessage: FlashMessagesService,
-    public router: Router
+    public router: Router,
+    public currenceService: CurrencyService
+
   ) { }
 
   ngOnInit() {
 
+    this.currenceService.selectedCurrency.subscribe(data => {
+      this.currentCurrency = Object.create(data.find(obj => {
+
+         return obj.isActive;
+      }));
+    });
+
+
    this.getBooks();
      this.subscription = this.bookService.deletedBook.subscribe((id) => {
        if (id && id !== this.lastId) {
-         console.log(id);
          this.getBooks();
          this.flashMessage.show("Delete Success!!!", {
            cssClass: 'alert-success',
@@ -42,18 +54,15 @@ export class PanelComponent implements OnInit, OnDestroy {
          });
        }
      });
-    console.log("panel ngOnInit", this.subscription);
   }
 
   searchBook() {
     this.searchingResult = this.books.filter( book => {
       return book.name.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1;
     });
-    console.log(this.searchingResult);
   }
 
   ngOnDestroy() {
-    console.log("destroy", this.subscription);
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -62,7 +71,6 @@ export class PanelComponent implements OnInit, OnDestroy {
   getBooks() {
     this.bookService.getBooks().subscribe((books: Book[]) => {
       this.books = books;
-      console.log(books);
     });
   }
 

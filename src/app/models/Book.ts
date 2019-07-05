@@ -9,6 +9,6 @@ export interface Book {
   author: string;
   description: string;
   prise: number;
-  date: string;
+  date?: string;
   links: BookLinks[];
 }
