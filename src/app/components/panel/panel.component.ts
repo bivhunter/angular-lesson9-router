@@ -18,6 +18,8 @@ export class PanelComponent implements OnInit, OnDestroy {
   books: Book[];
   subscription: SubscriptionLike ;
   lastId: string;
+  searchText: string;
+  searchingResult: Book[] = [];
 
   constructor(
     public bookService: BooksService,
@@ -43,6 +45,13 @@ export class PanelComponent implements OnInit, OnDestroy {
     console.log("panel ngOnInit", this.subscription);
   }
 
+  searchBook() {
+    this.searchingResult = this.books.filter( book => {
+      return book.name.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1;
+    });
+    console.log(this.searchingResult);
+  }
+
   ngOnDestroy() {
     console.log("destroy", this.subscription);
     if (this.subscription) {
@@ -60,9 +69,9 @@ export class PanelComponent implements OnInit, OnDestroy {
   deleteBook(id: string) {
     //console.log(this.bookService.deletedBook._isScalar);
     this.bookService.deleteBook(id);
-
-
   }
+
+
 
 
 }
