@@ -18,6 +18,9 @@
 
   <div class="row">
     <span class="navbar-text mr-3" *ngIf="isLogin">{{userName}}</span>
+    <div class="navbar-text mr-3">
+      <app-basket></app-basket>
+    </div>
     <button class="btn btn-danger" (click)="logout()" *ngIf="isLogin">Logout</button>
     <a routerLink="/login" class="btn btn-warning" *ngIf="!isLogin">Login</a>
     <a routerLink="/register" class="btn btn-success ml-3" *ngIf="!isLogin">Register</a>

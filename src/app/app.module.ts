@@ -24,6 +24,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { CustomDatePipe } from './pipes/custom-date.pipe';
 import { CurrencyComponent } from './components/currency/currency.component';
 import { CurrencyService} from "./services/currency.service";
+import { BasketComponent } from './components/basket/basket.component';
+import {BasketService} from "./services/basket.service";
+import { ClientHomeComponent } from './components/client-home/client-home.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,9 @@ import { CurrencyService} from "./services/currency.service";
     LoginComponent,
     RegisterComponent,
     CustomDatePipe,
-    CurrencyComponent
+    CurrencyComponent,
+    BasketComponent,
+    ClientHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,7 @@ import { CurrencyService} from "./services/currency.service";
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase, "forWeb")
   ],
-  providers: [BooksService, IdService, AuthService, CurrencyService],
+  providers: [BooksService, IdService, AuthService, CurrencyService, BasketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
